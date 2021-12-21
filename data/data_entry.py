@@ -16,7 +16,7 @@ def select_dataloader(train_config):
 
     train_data, val_data = random_split(dataset, [train_size, val_size])
 
-    train_loader = DataLoader(train_data, train_config.BATCH_SIZE, shuffle=True, drop_last=False)
-    val_loader = DataLoader(val_data, train_config.BATCH_SIZE, shuffle=True, drop_last=False)
+    train_loader = DataLoader(train_data, train_config.BATCH_SIZE, shuffle=True, drop_last=True)
+    val_loader = DataLoader(val_data, train_config.BATCH_SIZE, shuffle=True, drop_last=True)
 
     return train_loader, val_loader

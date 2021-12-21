@@ -57,9 +57,14 @@ class TextDataset4train(Dataset):
                     seg.append(0)
                     mask.append(0)
 
-                label_tmp = [0, 0, 0]
-                label_tmp[label] = 1
-                labels.append(label_tmp)
+                # label_tmp = [0, 0, 0]
+                # label_tmp[int(label)] = 1
+                # labels.append(label_tmp)
+
+                labels.append(int(label))
+                input_ids.append(ids)
+                input_mask.append(mask)
+                input_seg.append(seg)
 
         self.input_ids = torch.tensor(input_ids, dtype=torch.long)
         self.input_mask = torch.tensor(input_mask, dtype=torch.long)

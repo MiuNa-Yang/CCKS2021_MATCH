@@ -12,9 +12,9 @@ class Train_Config(object):
         DEVICE = torch.device("cuda")
     else:
         DEVICE = torch.device("cpu")
-    BATCH_SIZE = 64
+    BATCH_SIZE = 32
     TRAIN_FILE_PATH = "./resources/train.txt"
-    MAX_LEN = 64
+    MAX_LEN = 128
     LEARNING_RATE = 1e-7
     EPOCH = 3
 

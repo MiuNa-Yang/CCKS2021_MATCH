@@ -29,9 +29,7 @@ class NeZhaCLS(nn.Module):
 
         bert_output = self.bert(input_ids=input_ids,
                                 attention_mask=attention_mask,
-                                token_type_ids=token_type_ids,
-                                head_mask=head_mask,
-                                input_embeds=input_embeds)
+                                token_type_ids=token_type_ids)
 
         # 相当于[CLS]的输出
         pooled_output = bert_output[1]  # [1, hidden_size]

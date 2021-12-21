@@ -36,6 +36,7 @@ class Trainer:
                                token_type_ids=input_seg,
                                labels=labels)
 
+            print(logit, labels)
             # loss写在外面吧
             # labels [batch_size, num_labels]
             loss = self.loss_fn(logit, labels)
@@ -64,7 +65,7 @@ class Trainer:
                                attention_mask=input_mask,
                                token_type_ids=input_seg,
                                labels=labels)
-
+            print(logit, labels)
             # loss写在外面吧
             # labels [batch_size, num_labels]
             val_loss += self.loss_fn(logit, labels)
