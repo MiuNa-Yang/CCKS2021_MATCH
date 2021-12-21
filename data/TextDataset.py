@@ -57,7 +57,9 @@ class TextDataset4train(Dataset):
                     seg.append(0)
                     mask.append(0)
 
-                labels.append(label)
+                label_tmp = [0, 0, 0]
+                label_tmp[label] = 1
+                labels.append(label_tmp)
 
         self.input_ids = torch.tensor(input_ids, dtype=torch.long)
         self.input_mask = torch.tensor(input_mask, dtype=torch.long)
@@ -75,7 +77,7 @@ if __name__ == "__main__":
     config = {
         "train_file_path": "../resources/train.txt",
         "test_file_path": "../resources/test.txt",
-        "vocab_file": "../pretrained_model/nezha_base/vocab.txt"
+        "vocab_file": "../pretrained_model/nezha_wwn/vocab.txt"
     }
 
     # Tokenzier = BertTokenizer.from_pretrained(config["vocab_file"])

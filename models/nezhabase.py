@@ -9,14 +9,14 @@ from torch import nn
 from transformers import BertConfig
 
 
-class NeZhaCLS(NeZhaPreTrainedModel):
-    def __init__(self, config):
-        super(NeZhaPreTrainedModel, self).__init__(config)
+class NeZhaCLS(nn.Module):
+    def __init__(self, bert_path):
+        super(NeZhaCLS, self).__init__()
         self.num_labels = 3
-
+        self.bert_config = BertConfig.from_pretrained(bert_path)
         self.bert = NeZhaModel(config=self.bert_config)
-        self.fc_cls = nn.Linear(config.hidden_size, self.num_labels)
-        self.init_weights()
+        self.fc_cls = nn.Linear(self.bert_config.hidden_size, self.num_labels)
+        # self.init_weights()
 
     def forward(self,
                 input_ids=None,
@@ -33,16 +33,16 @@ class NeZhaCLS(NeZhaPreTrainedModel):
                                 head_mask=head_mask,
                                 input_embeds=input_embeds)
 
-        pooled_output = bert_output[1]
+        # 相当于[CLS]的输出
+        pooled_output = bert_output[1]  # [1, hidden_size]
+        logit = self.fc_cls(pooled_output)  # [1, num_labels]
 
-        logit = self.fc_cls(pooled_output)
+        # 可以将预测和训练继承在一个Model里
+        if labels is not None:  # 标签不为空，则为训练，可以直接在这里得到loss
 
-        # outputs = (logit,) + pooled_output[2:]
-        #
-        # if labels is not None:
-        #     # loss_fct = LabelSmoothingLoss(smoothing=0.01)
-        #     loss_fct = nn.CrossEntropyLoss()
-        #     loss = loss_fct(logit.view(-1, self.num_labels), labels.view(-1))
-        #     outputs = (loss,) + outputs
+            pass
 
         return logit
+
+# 将两个句子拼接后，放入bert，然后通过CLS对标签进行预测。
+# 这个任务会不会用文本相似度 + 标签 预测起来可以更加猛？
